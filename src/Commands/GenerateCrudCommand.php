@@ -5,6 +5,12 @@ namespace MrIncognito\CrudGenerator\Commands;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
+use MrIncognito\CrudGenerator\Actions\AppendRoutesAction;
+use MrIncognito\CrudGenerator\Actions\GenerateControllerAction;
+use MrIncognito\CrudGenerator\Actions\GenerateMigrationAction;
+use MrIncognito\CrudGenerator\Actions\GenerateModelAction;
+use MrIncognito\CrudGenerator\Actions\GenerateRequestAction;
+use MrIncognito\CrudGenerator\Actions\GenerateResourceAction;
 
 class GenerateCrudCommand extends Command
 {
@@ -22,19 +28,31 @@ class GenerateCrudCommand extends Command
      * - published:boolean
      *    Field "published" is a boolean
      */
-    protected $description = 'Generate API CRUD controller, model, request, and resource';
+    protected $description = 'Generate API CRUD controller, model, request, route and resource';
+
+    public function __construct(
+        protected GenerateModelAction $generateModel,
+        protected GenerateRequestAction $generateRequest,
+        protected GenerateResourceAction $generateResource,
+        protected GenerateControllerAction $generateController,
+        protected GenerateMigrationAction $generateMigration,
+        protected AppendRoutesAction $appendRoutes,
+    ) {
+        parent::__construct();
+    }
+
 
     public function handle(): void
     {
         $name = Str::studly($this->argument('name'));
         $fieldsInput = $this->option('fields') ?? '';
 
-        $this->generateModel($name, $this->option('fields'));
-        $this->generateRequest($name, $fieldsInput);
-        $this->generateResource($name);
-        $this->generateController($name);
-        $this->generateMigration($name, $fieldsInput);
-        $this->appendRoutes($name);
+        $this->generateModel->execute($name, $fieldsInput);
+        $this->generateRequest->execute($name, $fieldsInput);
+        $this->generateController->execute($name);
+        $this->generateResource->execute($name);
+        $this->generateMigration->execute($name, $fieldsInput);
+        $this->appendRoutes->execute($name);
 
         $this->info("API CRUD with controller, model, request model and migration for {$name} created.");
     }
