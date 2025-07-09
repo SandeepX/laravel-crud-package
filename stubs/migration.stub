@@ -10,7 +10,7 @@ return new class extends Migration
      {
          Schema::create('{{ table }}', static function (Blueprint $table) {
              $table->id();
-             {{ fields }}
+         {{ fields }}
              $table->timestamps();
          });
      }

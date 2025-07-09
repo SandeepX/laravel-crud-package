@@ -94,23 +94,35 @@ class GenerateCrudCommand extends Command
                 $rules = $isNullable ? 'nullable' : 'required';
 
                 if ($baseType === 'foreign') {
-                    $relation = $typeAndRules[1] ?? null;
-                    if ($relation && str_contains($relation, ',')) {
-                        [$relatedTable, $relatedColumn] = explode(',', $relation);
-                        $rules .= "|exists:{$relatedTable},{$relatedColumn}";
-                    } else {
-                        $rules .= "|exists:{$relation},id";
+                    $table = null;
+                    $column = 'id';
+                    if (! $isNullable) {
+                        foreach ($typeAndRules as $rule) {
+                            if (str_starts_with($rule, 'constrained:')) {
+                                $table = explode(':', $rule)[1];
+                            } elseif ($rule !== 'foreign' && ! str_starts_with($rule, 'onDelete') && ! str_starts_with($rule, 'onUpdate')) {
+                                if (str_contains($rule, ',')) {
+                                    [$table, $column] = explode(',', $rule);
+                                } elseif (! str_contains($rule, ':')) {
+                                    $table = $rule;
+                                }
+                            }
+                        }
+
+                        if ($table) {
+                            $rules .= "|exists:{$table},{$column}";
+                        }
                     }
                 } else {
                     $rules .= "|{$baseType}";
 
                     if (isset($typeAndRules[1])) {
-                        $extraRules = str_replace(',', '|', $typeAndRules[1]);
+                        $extraRules = implode('|', array_slice($typeAndRules, 1));
                         $rules .= "|{$extraRules}";
                     }
                 }
 
-                return "        '{$fieldName}' => '{$rules}',";
+                return "    '{$fieldName}' => '{$rules}',";
             })
             ->implode("\n");
 

@@ -47,7 +47,7 @@ class {{ class }}Controller extends Controller
             return response()->json(new {{ class }}Resource($model), 201);
         } catch (Exception $e) {
             Log::error("Error creating {{ class }}: " . $e->getMessage());
-            return response()->json(['message' => $e->getMessage()], $e->getCode);
+            return response()->json(['message' => $e->getMessage()], $e->getCode());
         }
     }
 
@@ -63,7 +63,7 @@ class {{ class }}Controller extends Controller
             return response()->json(new {{ class }}Resource($model));
         } catch (Exception $e) {
             Log::error("Error fetching {{ class }}: " . $e->getMessage());
-            return response()->json(['message' => $e->getMessage()], $e->getCode);
+            return response()->json(['message' => $e->getMessage()], $e->getCode());
         }
     }
 
@@ -82,7 +82,7 @@ class {{ class }}Controller extends Controller
             return response()->json(new {{ class }}Resource($model));
         } catch (Exception $e) {
             Log::error("Error updating {{ class }}: " . $e->getMessage());
-            return response()->json(['message' => $e->getMessage()], $e->getCode);
+            return response()->json(['message' => $e->getMessage()], $e->getCode());
         }
     }
 
@@ -100,7 +100,7 @@ class {{ class }}Controller extends Controller
             return response()->json(null, 204);
         } catch (Exception $e) {
             Log::error("Error deleting {{ class }}: " . $e->getMessage());
-            return response()->json(['message' => $e->getMessage()], $e->getCode);
+            return response()->json(['message' => $e->getMessage()], $e->getCode());
         }
     }
 }
