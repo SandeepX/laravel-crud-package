@@ -3,7 +3,7 @@
     "description": "This package is for handling the crud for simple crud like for setup etc.",
     "type": "laravel-package",
     "license": "MIT",
-    "version": "v1.0.1",
+    //"version": "v1.0.1",
     "keywords": [
         "laravel",
         "crud-generator",
