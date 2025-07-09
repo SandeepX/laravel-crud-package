@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Models\{{ class }};
+use App\Http\Controllers\Controller;
 use App\Http\Requests\{{ class }}Request;
 use App\Http\Resources\{{ class }}Resource;
 use Illuminate\Http\JsonResponse;
@@ -13,19 +14,20 @@ use Exception;
 class {{ class }}Controller extends Controller
 {
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return JsonResponse
-     */
+   /**
+    * Display a listing of the resource.
+    *
+    * @param Request $request
+    * @return JsonResponse
+    */
     public function index(Request $request): JsonResponse
     {
         try {
-            $data = {{ class }}::all();
+            $data = {{ class }}::query()->get();
             return response()->json({{ class }}Resource::collection($data));
         } catch (Exception $e) {
             Log::error("Error fetching {{ class }} records: " . $e->getMessage());
-            return response()->json(['message' => $e->getMessage()], $e->getCode);
+            return response()->json(['message' => $e->getMessage()], $e->getCode());
 
         }
     }

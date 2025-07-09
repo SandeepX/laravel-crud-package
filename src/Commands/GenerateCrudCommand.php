@@ -45,17 +45,21 @@ class GenerateCrudCommand extends Command
 
         $fields = explode(';', $rawFields);
 
-        $fillable = collect($fields)
+        $excludedColumns = ['id', 'created_at', 'updated_at'];
+
+        $fillableFields = collect($fields)
             ->map(function ($field) {
                 $parts = explode(':', $field, 2);
 
-                return "'".trim($parts[0])."'";
+                return trim($parts[0]);
             })
-            ->implode(",\n        ");
+            ->filter(fn ($field) => ! in_array($field, $excludedColumns, true))
+            ->map(fn ($field) => "        '{$field}'")
+            ->implode(",\n");
 
         $output = str_replace(
             ['{{ class }}', '{{ fillable }}'],
-            [$name, $fillable],
+            [$name, $fillableFields],
             $stub
         );
 
@@ -88,14 +92,25 @@ class GenerateCrudCommand extends Command
                 $baseType = rtrim($type, '?');
 
                 $rules = $isNullable ? 'nullable' : 'required';
-                $rules .= "|{$baseType}";
 
-                if (isset($typeAndRules[1])) {
-                    $extraRules = str_replace([',', ' '], '|', $typeAndRules[1]);
-                    $rules .= '|'.$extraRules;
+                if ($baseType === 'foreign') {
+                    $relation = $typeAndRules[1] ?? null;
+                    if ($relation && str_contains($relation, ',')) {
+                        [$relatedTable, $relatedColumn] = explode(',', $relation);
+                        $rules .= "|exists:{$relatedTable},{$relatedColumn}";
+                    } else {
+                        $rules .= "|exists:{$relation},id";
+                    }
+                } else {
+                    $rules .= "|{$baseType}";
+
+                    if (isset($typeAndRules[1])) {
+                        $extraRules = str_replace(',', '|', $typeAndRules[1]);
+                        $rules .= "|{$extraRules}";
+                    }
                 }
 
-                return "            '{$fieldName}' => '{$rules}',";
+                return "        '{$fieldName}' => '{$rules}',";
             })
             ->implode("\n");
 
@@ -133,20 +148,19 @@ class GenerateCrudCommand extends Command
             $baseType = rtrim($type, '?');
 
             if ($baseType === 'foreign') {
-                $statement = "\$table->foreignId('{$fieldName}')";
-
+                $statement = "\$table->foreignId('".trim($fieldName)."')";
                 if ($isNullable) {
                     $statement .= '->nullable()';
                 }
 
                 foreach ($parts as $rule) {
                     if (Str::startsWith($rule, 'constrained:')) {
-                        $targetTable = Str::after($rule, 'constrained:');
+                        $targetTable = trim(Str::after($rule, 'constrained:'));
                         $statement .= "->constrained('{$targetTable}')";
                     } elseif ($rule === 'constrained') {
                         $statement .= '->constrained()';
                     } elseif (Str::startsWith($rule, 'onDelete:')) {
-                        $action = Str::after($rule, 'onDelete:');
+                        $action = trim(Str::after($rule, 'onDelete:'));
                         $statement .= "->onDelete('{$action}')";
                     }
                 }
@@ -155,7 +169,8 @@ class GenerateCrudCommand extends Command
             }
 
             return "\$table->{$baseType}('{$fieldName}')".($isNullable ? '->nullable()' : '').';';
-        })->implode("\n            ");
+        })->map(fn ($line) => '            '.$line)
+            ->implode("\n");
 
         $output = str_replace(
             ['{{ class }}', '{{ table }}', '{{ fields }}'],

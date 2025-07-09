@@ -69,7 +69,8 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "scripts": {
-        "test": "vendor/bin/pest"
+        "test": "vendor/bin/pest",
+        "pint": "vendor/bin/pint"
     },
     "config": {
         "allow-plugins": {
