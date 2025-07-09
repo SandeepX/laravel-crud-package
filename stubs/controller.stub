@@ -1,0 +1,104 @@
+<?php
+
+namespace App\Http\Controllers\Api;
+
+use App\Models\{{ class }};
+use App\Http\Requests\{{ class }}Request;
+use App\Http\Resources\{{ class }}Resource;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use Exception;
+
+class {{ class }}Controller extends Controller
+{
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return JsonResponse
+     */
+    public function index(Request $request): JsonResponse
+    {
+        try {
+            $data = {{ class }}::all();
+            return response()->json({{ class }}Resource::collection($data));
+        } catch (Exception $e) {
+            Log::error("Error fetching {{ class }} records: " . $e->getMessage());
+            return response()->json(['message' => $e->getMessage()], $e->getCode);
+
+        }
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  {{ class }}Request  $request
+     * @return JsonResponse
+     * @throws Exception
+     */
+    public function store({{ class }}Request $request): JsonResponse
+    {
+        try {
+            $validatedData = $request->validated();
+            $model = {{ class }}::create($validatedData);
+            return response()->json(new {{ class }}Resource($model), 201);
+        } catch (Exception $e) {
+            Log::error("Error creating {{ class }}: " . $e->getMessage());
+            return response()->json(['message' => $e->getMessage()], $e->getCode);
+        }
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  {{ class }}  $model
+     * @return JsonResponse
+     */
+    public function show({{ class }} $model): JsonResponse
+    {
+        try {
+            return response()->json(new {{ class }}Resource($model));
+        } catch (Exception $e) {
+            Log::error("Error fetching {{ class }}: " . $e->getMessage());
+            return response()->json(['message' => $e->getMessage()], $e->getCode);
+        }
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  {{ class }}Request  $request
+     * @param  {{ class }}  $model
+     * @return JsonResponse
+     * @throws Exception
+     */
+    public function update({{ class }}Request $request, {{ class }} $model): JsonResponse
+    {
+        try {
+            $model->update($request->validated());
+            return response()->json(new {{ class }}Resource($model));
+        } catch (Exception $e) {
+            Log::error("Error updating {{ class }}: " . $e->getMessage());
+            return response()->json(['message' => $e->getMessage()], $e->getCode);
+        }
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  {{ class }}  $model
+     * @return JsonResponse
+     * @throws Exception
+     */
+    public function destroy({{ class }} $model): JsonResponse
+    {
+        try {
+            $model->delete();
+            return response()->json(null, 204);
+        } catch (Exception $e) {
+            Log::error("Error deleting {{ class }}: " . $e->getMessage());
+            return response()->json(['message' => $e->getMessage()], $e->getCode);
+        }
+    }
+}
