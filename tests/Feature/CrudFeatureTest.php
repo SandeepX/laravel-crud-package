@@ -65,7 +65,8 @@ it('generates model, controller, request, resource, and migration files with pro
     expect($modelContent)->not()->toContain('updated_at');
 
     $requestContent = File::get(base_path("app/Http/Requests/{$this->modelName}Request.php"));
-    expect($requestContent)->toContain("'title' => 'required|string|min:3|max:255'");
-    expect($requestContent)->toContain("'email' => 'nullable|string|email'");
-    expect($requestContent)->toContain("'published' => 'required|boolean'");
+    expect($requestContent)->toContain("'title' => ['required', 'string', 'min:3', 'max:255']");
+    expect($requestContent)->toContain("'email' => ['nullable', 'string', 'email']");
+    expect($requestContent)->toContain("'published' => ['required', 'boolean']");
+
 });

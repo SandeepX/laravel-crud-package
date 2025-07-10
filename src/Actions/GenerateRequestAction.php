@@ -48,13 +48,18 @@ class GenerateRequestAction
                 } else {
                     $rules .= '|'.$this->mapToValidationRule($baseType);
 
-                    if (isset($typeAndRules[1])) {
-                        $extraRules = implode('|', array_slice($typeAndRules, 1));
+                    $extraRules = collect(array_slice($typeAndRules, 1))
+                        ->reject(fn ($rule) => str_starts_with($rule, 'default:'))
+                        ->implode('|');
+
+                    if (! empty($extraRules)) {
                         $rules .= "|{$extraRules}";
                     }
                 }
 
-                return "    '{$fieldName}' => '{$rules}',";
+                return "    '{$fieldName}' => [".implode(', ', collect(explode('|', $rules))
+                    ->map(fn ($rule) => "'{$rule}'")->toArray()).'],';
+
             })
             ->implode("\n");
 
