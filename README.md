@@ -96,7 +96,7 @@ string, text, boolean, integer, decimal, date, uuid, json, timestamp, etc.
 
 Foreign key via foreign, e.g., user_id:foreign~|constrained:users
 
-Nullable fields: suffix type with '~', e.g., email:string~
+Nullable fields: suffix type with `~`, e.g., email:string~
 
 Default values: default:value, e.g., status:boolean|default:true
 
