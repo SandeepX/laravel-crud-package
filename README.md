@@ -53,8 +53,7 @@ To create crud with nullable foreignKey column
 
 ```
 
-php artisan make:api-crud Department --fields="name:string;created_by:foreign~|constrained:hospitals
-
+php artisan make:api-crud Department --fields="name:string;created_by:foreign~|constrained:hospitals"
 ```
 
 
@@ -86,7 +85,7 @@ php artisan make:api-crud Department --fields="name:string;status:boolean~|defau
 ## Field Syntax
 Each field uses the format:
 ```
-column_one_name:data_type[~]|rules|default:xyz;column_two_name:foreignId[~]|constrained:table|
+column_one_name:data_type[~]|rules|default:xyz;column_two_name:foreignId[~]|constrained:table
 
 ```
 
@@ -97,7 +96,7 @@ string, text, boolean, integer, decimal, date, uuid, json, timestamp, etc.
 
 Foreign key via foreign, e.g., user_id:foreign~|constrained:users
 
-Nullable fields: suffix type with ~, e.g., email:string~
+Nullable fields: suffix type with '~', e.g., email:string~
 
 Default values: default:value, e.g., status:boolean|default:true
 
