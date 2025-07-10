@@ -1,10 +1,11 @@
 {
-    "name": "mr.incognito/crud-generator",
+    "name": "mr.incognito/mr.incognito/crudify",
     "description": "This package is for handling the crud for simple crud like for setup etc.",
     "type": "laravel-package",
     "license": "MIT",
     "keywords": [
         "laravel",
+        "crudify",
         "crud-generator",
         "api",
         "api-crud",
@@ -60,6 +61,7 @@
         }
     },
     "require-dev": {
+        "roave/security-advisories": "dev-latest",
         "laravel/pint": "^1.20",
         "pestphp/pest": "^2.0||^3.0",
         "pestphp/pest-plugin-laravel": "^2.4",
