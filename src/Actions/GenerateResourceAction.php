@@ -13,5 +13,4 @@ class GenerateResourceAction
         File::ensureDirectoryExists(app_path('Http/Resources'));
         File::put(app_path("Http/Resources/{$name}Resource.php"), $output);
     }
-
 }

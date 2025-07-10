@@ -19,8 +19,16 @@ class GenerateMigrationAction
 
             $parts = explode('|', $typeAndRules);
             $type = $parts[0];
-            $isNullable = Str::endsWith($type, '?');
-            $baseType = rtrim($type, '?');
+            $isNullable = Str::endsWith($type, '~');
+            $baseType = rtrim($type, '~');
+
+            $defaultValue = null;
+
+            foreach ($parts as $rule) {
+                if (Str::startsWith($rule, 'default:')) {
+                    $defaultValue = Str::after($rule, 'default:');
+                }
+            }
 
             if ($baseType === 'foreign') {
                 $statement = "\$table->foreignId('".trim($fieldName)."')";
@@ -43,7 +51,19 @@ class GenerateMigrationAction
                 return $statement.';';
             }
 
-            return "\$table->{$baseType}('{$fieldName}')".($isNullable ? '->nullable()' : '').';';
+            $statement = "\$table->{$baseType}('{$fieldName}')";
+            if ($isNullable) {
+                $statement .= '->nullable()';
+            }
+
+            if (! is_null($defaultValue)) {
+                // Wrap strings in quotes, leave numbers/booleans as-is
+                $statement .= is_numeric($defaultValue) || in_array($defaultValue, ['true', 'false'])
+                    ? "->default({$defaultValue})"
+                    : "->default('{$defaultValue}')";
+            }
+
+            return $statement.';';
         })->map(fn ($line) => '            '.$line)
             ->implode("\n");
 
@@ -57,5 +77,4 @@ class GenerateMigrationAction
         $timestamp = date('Y_m_d_His');
         File::put(database_path("migrations/{$timestamp}_create_{$tableName}_table.php"), $output);
     }
-
 }

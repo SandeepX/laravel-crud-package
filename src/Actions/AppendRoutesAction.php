@@ -12,5 +12,4 @@ class AppendRoutesAction
         $resource = Str::kebab(Str::pluralStudly($name));
         File::append(base_path('routes/api.php'), "\nRoute::apiResource('{$resource}', \\App\\Http\\Controllers\\Api\\{$name}Controller::class);");
     }
-
 }

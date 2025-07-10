@@ -20,8 +20,8 @@ class GenerateRequestAction
                 $typeAndRules = explode('|', $rulePart);
                 $type = $typeAndRules[0];
 
-                $isNullable = Str::endsWith($type, '?');
-                $baseType = rtrim($type, '?');
+                $isNullable = Str::endsWith($type, '~');
+                $baseType = rtrim($type, '~');
 
                 $rules = $isNullable ? 'nullable' : 'required';
 
@@ -46,7 +46,7 @@ class GenerateRequestAction
                         }
                     }
                 } else {
-                    $rules .= "|{$baseType}";
+                    $rules .= '|'.$this->mapToValidationRule($baseType);
 
                     if (isset($typeAndRules[1])) {
                         $extraRules = implode('|', array_slice($typeAndRules, 1));
@@ -68,4 +68,24 @@ class GenerateRequestAction
         File::put(app_path("Http/Requests/{$name}Request.php"), $output);
     }
 
+    private function mapToValidationRule(string $dbType): string
+    {
+        return match ($dbType) {
+            'bigIncrements', 'bigInteger', 'increments', 'integer',
+            'mediumIncrements', 'mediumInteger', 'smallIncrements',
+            'smallInteger', 'tinyIncrements', 'tinyInteger',
+            'unsignedBigInteger', 'unsignedInteger', 'unsignedMediumInteger',
+            'unsignedSmallInteger', 'unsignedTinyInteger', 'year' => 'integer',
+
+            'decimal', 'double', 'float', 'unsignedDecimal' => 'numeric',
+
+            'boolean' => 'boolean',
+
+            'date', 'dateTime', 'time', 'timestamp', 'timeTz', 'timestampTz' => 'date',
+
+            'json', 'jsonb' => 'array',
+
+            default => 'string',
+        };
+    }
 }
