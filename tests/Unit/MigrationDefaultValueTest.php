@@ -26,7 +26,7 @@ afterEach(function () {
 it('generates migration fields with default values', function () {
     $fields = 'name:string|default:Unknown;age:integer|default:25;active:boolean|default:true;salary:decimal|default:1000.50';
 
-    $this->artisan("make:api-crud {$this->modelName} --fields={$fields}")
+    $this->artisan("make:crud {$this->modelName} --fields={$fields}")
         ->assertExitCode(0)
         ->run();
 

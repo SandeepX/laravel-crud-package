@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 
 /** Example usage:
- * php artisan make:api-crud Comment --fields="post_id:foreignId;user_id:foreignId~"
+ * php artisan make:crud Comment --fields="post_id:foreignId;user_id:foreignId~"
  *
  * Explanation:
  *
@@ -36,7 +36,7 @@ afterEach(function () {
 it('generates foreignId fields with correct nullability and constraints', function () {
     $fields = 'post_id:foreignId;user_id:foreignId~';
 
-    $this->artisan("make:api-crud {$this->modelName} --fields={$fields}")
+    $this->artisan("make:crud {$this->modelName} --fields={$fields}")
         ->assertExitCode(0)
         ->run();
 

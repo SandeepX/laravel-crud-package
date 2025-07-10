@@ -28,14 +28,14 @@ composer require mr.incognito/crudify
 
 ```
 
-php artisan make:api-crud ModelName --fields="field:type|rule1,rule2;another:foreign~|constrained:table"
+php artisan make:crud ModelName --fields="field:type|rule1,rule2;another:foreign~|constrained:table"
 
 ```
 ## Example 1:
 To create crud without foreignKey
 
 ```
-php artisan make:api-crud Department --fields="name:string|max:255;created_by:foreign~|constrained:users"
+php artisan make:crud Department --fields="name:string|max:255;created_by:foreign~|constrained:users"
 
 ```
 
@@ -44,7 +44,7 @@ To create crud with required foreignKey column and with constrained
 
 ```
 
-php artisan make:api-crud Department --fields="name:string;created_by:foreign|constrained:users|onDelete:cascade"
+php artisan make:crud Department --fields="name:string;created_by:foreign|constrained:users|onDelete:cascade"
 
 ```
 
@@ -53,7 +53,7 @@ To create crud with nullable foreignKey column
 
 ```
 
-php artisan make:api-crud Department --fields="name:string;created_by:foreign~|constrained:hospitals"
+php artisan make:crud Department --fields="name:string;created_by:foreign~|constrained:hospitals"
 ```
 
 
@@ -62,7 +62,7 @@ To create crud with default value  column
 
 ```
 
-php artisan make:api-crud Department --fields="name:string;status:boolean~|default:true"
+php artisan make:crud Department --fields="name:string;status:boolean~|default:true"
 
 ```
 

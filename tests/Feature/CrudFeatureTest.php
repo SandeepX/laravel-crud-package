@@ -34,7 +34,7 @@ afterEach(function () {
 it('generates model, controller, request, resource, and migration files with proper validation and fillable', function () {
     $fields = 'title:string|min:3|max:255;email:string~|email;published:boolean';
 
-    $this->artisan("make:api-crud {$this->modelName} --fields=\"{$fields}\"")
+    $this->artisan("make:crud {$this->modelName} --fields=\"{$fields}\"")
         ->assertExitCode(0)
         ->run();
 

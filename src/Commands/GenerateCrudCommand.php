@@ -14,7 +14,7 @@ use MrIncognito\CrudGenerator\Pipelines\GenerateRoutePipeline;
 
 class GenerateCrudCommand extends Command
 {
-    protected $signature = 'make:api-crud {name} {--fields=}';
+    protected $signature = 'make:crud {name} {--fields=}';
 
     protected $description = 'Generate API CRUD controller, model, request, route and resource';
 
