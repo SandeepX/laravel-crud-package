@@ -1,5 +1,5 @@
 {
-    "name": "mr.incognito/mr.incognito/crudify",
+    "name": "mr.incognito/crudify",
     "description": "This package is for handling the crud for simple crud like for setup etc.",
     "type": "laravel-package",
     "license": "MIT",
