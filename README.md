@@ -119,6 +119,7 @@ This package uses [Rector](https://github.com/rectorphp/rector) for automated co
 
 ```bash
 composer rector
+```
 
 
 
