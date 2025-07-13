@@ -113,6 +113,14 @@ This package uses Pest for testing:
 composer test
 ```
 
+## Refactoring
+
+This package uses [Rector](https://github.com/rectorphp/rector) for automated code refactoring and PHP/Laravel upgrades:
+
+```bash
+composer rector
+
+
 
 ## 🛠 Dev Requirements
 - PHP ^8.1
