@@ -1,0 +1,61 @@
+<?php
+
+namespace App\Http\Controllers\Web;
+
+use App\Models\{{ model }};
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\{{ model }}Request;
+use Illuminate\Http\Request;
+
+class {{ model }}Controller extends Controller
+{
+    public function index(Request $request)
+    {
+        ${{ pluralVariable }} = {{ model }}::latest()->paginate(10);
+        return view('{{ viewPath }}.index', compact('{{ pluralVariable }}'));
+    }
+
+    public function create()
+    {
+        return view('{{ viewPath }}.create');
+    }
+
+    public function ({{ model }}Request $request)
+    {
+        $validatedData = $request->validated();
+
+        {{ model }}::create($validatedData);
+
+        return redirect()->route('{{ routeName }}.index')
+            ->with('success', '{{ model }} created successfully.');
+    }
+
+    public function show({{ model }} ${{ variable }})
+    {
+        return view('{{ viewPath }}.show', compact('{{ variable }}'));
+    }
+
+    public function edit({{ model }} ${{ variable }})
+    {
+        return view('{{ viewPath }}.edit', compact('{{ variable }}'));
+    }
+
+    public function update({{ model }}Request $request, {{ model }} ${{ variable }})
+    {
+        $validatedData = $request->validated();
+
+        ${{ variable }}->update($validatedData);
+
+        return redirect()->route('{{ routeName }}.index')
+            ->with('success', '{{ model }} updated successfully.');
+    }
+
+    public function destroy({{ model }} ${{ variable }})
+    {
+        ${{ variable }}->delete();
+
+        return redirect()->route('{{ routeName }}.index')
+            ->with('success', '{{ model }} deleted successfully.');
+    }
+}

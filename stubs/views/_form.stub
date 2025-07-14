@@ -1,0 +1,5 @@
+<h1>Your Form Here</h1>
+
+@csrf
+
+<!-- Replace this with your form inputs -->

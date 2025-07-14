@@ -1,8 +1,8 @@
 <?php
 
-namespace MrIncognito\CrudGenerator\Pipelines;
+namespace MrIncognito\CrudGenerator\Pipelines\Api;
 
-use MrIncognito\CrudGenerator\Actions\GenerateResourceAction;
+use MrIncognito\CrudGenerator\Actions\Api\GenerateResourceAction;
 
 class GenerateResourcePipeline
 {

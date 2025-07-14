@@ -8,8 +8,8 @@ use RectorLaravel\Set\LaravelSetList;
 
 return static function (RectorConfig $config): void {
     $config->paths([
-        __DIR__ . '/src',
-        __DIR__ . '/tests',
+        __DIR__.'/src',
+        __DIR__.'/tests',
     ]);
 
     $config->import(LaravelSetList::LARAVEL_100);
@@ -18,5 +18,3 @@ return static function (RectorConfig $config): void {
 
     $config->parallel();
 };
-
-

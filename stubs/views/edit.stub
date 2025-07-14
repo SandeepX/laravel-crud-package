@@ -1,0 +1,12 @@
+@extends('layouts.app')
+
+@section('content')
+    <h1>Edit {{ ucfirst($variable) }}</h1>
+
+    <form method="POST" action="{{ route('{{ routeName }}.update', ${{ variable }}) }}">
+        @csrf
+        @method('PUT')
+
+        @include('{{ viewPath }}._form')
+    </form>
+@endsection

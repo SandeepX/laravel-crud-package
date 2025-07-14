@@ -1,0 +1,10 @@
+@extends('layouts.app')
+
+@section('content')
+    <h1>{{ ucfirst($variable) }} Details</h1>
+
+    <p>ID: {{ ${{ variable }}->id }}</p>
+    <p>Title: {{ ${{ variable }}->title ?? 'N/A' }}</p>
+
+    <a href="{{ route('{{ routeName }}.index') }}">Back</a>
+@endsection

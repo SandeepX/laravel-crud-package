@@ -1,6 +1,6 @@
 <?php
 
-namespace MrIncognito\CrudGenerator\Actions;
+namespace MrIncognito\CrudGenerator\Actions\Api;
 
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;

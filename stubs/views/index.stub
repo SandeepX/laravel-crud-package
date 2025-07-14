@@ -1,0 +1,25 @@
+@extends('layouts.app')
+
+@section('content')
+    <h1>{{ ucfirst($pluralVariable) }}</h1>
+
+    <a href="{{ route('{{ routeName }}.create') }}">Create New</a>
+
+    <ul>
+        @foreach(${{ pluralVariable }} as ${{ variable }})
+            <li>
+                {{ ${{ variable }}->id }} - {{ ${{ variable }}->title ?? 'N/A' }}
+
+                <a href="{{ route('{{ routeName }}.show', ${{ variable }}) }}">View</a>
+                <a href="{{ route('{{ routeName }}.edit', ${{ variable }}) }}">Edit</a>
+                <form action="{{ route('{{ routeName }}.destroy', ${{ variable }}) }}" method="POST" style="display:inline">
+                    @csrf
+                    @method('DELETE')
+                    <button onclick="return confirm('Delete this item?')" type="submit">Delete</button>
+                </form>
+            </li>
+        @endforeach
+    </ul>
+
+    {{ ${{ pluralVariable }}->links() }}
+@endsection

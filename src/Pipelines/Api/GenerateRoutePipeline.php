@@ -1,8 +1,8 @@
 <?php
 
-namespace MrIncognito\CrudGenerator\Pipelines;
+namespace MrIncognito\CrudGenerator\Pipelines\Api;
 
-use MrIncognito\CrudGenerator\Actions\AppendRoutesAction;
+use MrIncognito\CrudGenerator\Actions\Api\AppendRoutesAction;
 
 class GenerateRoutePipeline
 {
