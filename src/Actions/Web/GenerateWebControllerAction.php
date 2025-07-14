@@ -12,7 +12,7 @@ class GenerateWebControllerAction
         $stub = file_get_contents(__DIR__.'/../../../stubs/web_controller.stub');
         $model = Str::studly($name);
         $variable = Str::camel($name);
-        $pluralVariable = Str::plural($model);
+        $pluralVariable = Str::plural($variable);
         $viewPath = Str::kebab(Str::plural($name));
         $routeName = $viewPath;
         $replaced = str_replace(

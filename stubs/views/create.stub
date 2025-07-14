@@ -1,9 +1,7 @@
-@extends('layouts.app')
 
-@section('content')
-    <h1>Create {{ ucfirst($variable) }}</h1>
+    <h1>Create</h1>
 
     <form method="POST" action="{{ route('{{ routeName }}.store') }}">
         @include('{{ viewPath }}._form')
     </form>
-@endsection
+

@@ -114,7 +114,7 @@ Default values: default:value, e.g., status:boolean|default:true
 
 🎯 ``--type=web``: generates web controller and Blade views
 
-✂️ ``--exclude``=model,migration,request,...: skip generating specific components
+✂️ ``--exclude``=model,migration,request,route,views,resource,controller: skip generating specific components
 
 ### ⚠️ Default Behavior
 If `--type` is not specified, the command defaults to type=api.

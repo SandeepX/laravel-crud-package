@@ -1,7 +1,5 @@
-@extends('layouts.app')
 
-@section('content')
-    <h1>{{ ucfirst($pluralVariable) }}</h1>
+    <h1>Lists</h1>
 
     <a href="{{ route('{{ routeName }}.create') }}">Create New</a>
 
@@ -22,4 +20,3 @@
     </ul>
 
     {{ ${{ pluralVariable }}->links() }}
-@endsection
