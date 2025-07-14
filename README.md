@@ -31,7 +31,7 @@ composer require mr.incognito/crudify
 🚀 Usage
 
 ```
-php artisan make:crud ModelName --fields="field:type|rule1,rule2;another:foreign~|constrained:table" --type=api|web --exclude=model,..
+php artisan make:crud ModelName --fields="field:type|rule1|rule2;another:foreign~|constrained:table" --type=api|web --exclude=model,..
 ```
 ## Example 1:
 To create crud without foreignKey

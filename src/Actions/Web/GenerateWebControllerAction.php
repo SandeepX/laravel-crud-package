@@ -11,12 +11,14 @@ class GenerateWebControllerAction
     {
         $stub = file_get_contents(__DIR__.'/../../../stubs/web_controller.stub');
         $model = Str::studly($name);
+        $variable = Str::camel($name);
         $pluralVariable = Str::plural($model);
         $viewPath = Str::kebab(Str::plural($name));
         $routeName = $viewPath;
         $replaced = str_replace(
             [
                 '{{ model }}',
+                '{{ variable }}',
                 '{{ pluralVariable }}',
                 '{{ viewPath }}',
                 '{{ routeName }}',
@@ -24,6 +26,7 @@ class GenerateWebControllerAction
             ],
             [
                 $model,
+                $variable,
                 $pluralVariable,
                 $viewPath,
                 $routeName,
