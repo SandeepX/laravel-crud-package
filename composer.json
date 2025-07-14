@@ -9,6 +9,8 @@
         "crud-generator",
         "api",
         "api-crud",
+        "web",
+        "web-crud",
         "laravel-api",
         "package",
         "laravel-package",
