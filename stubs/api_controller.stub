@@ -53,13 +53,18 @@ class {{ class }}Controller extends Controller
 
     /**
      * Display the specified resource.
-     *
-     * @param  {{ class }}  $model
+
+     * @param  int  $id
      * @return JsonResponse
      */
-    public function show({{ class }} $model): JsonResponse
+    public function show(int $id): JsonResponse
     {
         try {
+            $model = {{ class }}::find($id);
+
+            if (!$model) {
+                return response()->json(['message' => '{{class}} not found.'], 404);
+            }
             return response()->json(new {{ class }}Resource($model));
         } catch (Exception $e) {
             Log::error("Error fetching {{ class }}: " . $e->getMessage());
@@ -71,13 +76,18 @@ class {{ class }}Controller extends Controller
      * Update the specified resource in storage.
      *
      * @param  {{ class }}Request  $request
-     * @param  {{ class }}  $model
+     * @param  int  $id
      * @return JsonResponse
      * @throws Exception
      */
-    public function update({{ class }}Request $request, {{ class }} $model): JsonResponse
+    public function update({{ class }}Request $request, int $id): JsonResponse
     {
         try {
+            $model = {{ class }}::find($id);
+
+            if (!$model) {
+                return response()->json(['message' => '{{ class }} not found.'], 404);
+            }
             $model->update($request->validated());
             return response()->json(new {{ class }}Resource($model));
         } catch (Exception $e) {
@@ -89,13 +99,18 @@ class {{ class }}Controller extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  {{ class }}  $model
+     * @param int $id
      * @return JsonResponse
      * @throws Exception
      */
-    public function destroy({{ class }} $model): JsonResponse
+    public function destroy(int $id): JsonResponse
     {
         try {
+            $model = {{ class }}::find($id);
+
+            if (!$model) {
+                return response()->json(['message' => '{{ class }} not found.'], 404);
+            }
             $model->delete();
             return response()->json(null, 204);
         } catch (Exception $e) {
